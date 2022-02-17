@@ -4,7 +4,7 @@ function inputFieldValue(inputId) {
     const inputField = document.getElementById(inputId);
     const inputFieldText = inputField.value;
     const inputFieldAmount = parseFloat(inputFieldText)
-    inputField.value = ""
+    // inputField.value = ""
     return inputFieldAmount;
 }
 
@@ -57,3 +57,14 @@ document.getElementById("calculate").addEventListener("click", function () {
     }
 })
 
+
+document.getElementById("saving-btn").addEventListener("click", function () {
+    const save = inputFieldValue("saving-input")
+    const income = inputFieldValue("income");
+    const savingAmount = document.getElementById("saving-amount");
+    const remainingBalance = document.getElementById("remaining-balance");
+    const balace = document.getElementById("balance");
+    const saving = income * (save / 100);
+    savingAmount.innerText = saving;
+    remainingBalance.innerText = balace.innerText - saving
+})
