@@ -67,6 +67,7 @@ document.getElementById("calculate").addEventListener("click", function () {
 
 
 document.getElementById("saving-btn").addEventListener("click", function () {
+
     const savingPercent = inputFieldValue("saving-input")
     const income = inputFieldValue("income");
     const savingAmount = document.getElementById("saving-amount");
@@ -83,9 +84,16 @@ document.getElementById("saving-btn").addEventListener("click", function () {
             errorHandle("saving-input-error", "saving-input")
         }
     }
+
     else {
-        savingAmount.innerText = saving;
-        remainingBalance.innerText = balaceValue - saving
+        const remainingValue = balaceValue - saving
+        if (remainingValue < 0) {
+            errorHandle("saving-input-error", "saving-input")
+        }
+        else {
+            remainingBalance.innerText = remainingValue;
+            savingAmount.innerText = saving;
+        }
     }
 })
 
