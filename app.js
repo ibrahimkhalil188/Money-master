@@ -1,54 +1,62 @@
 // function for taking value from input field
 
-function inputFieldValue(inputId) {
+function inputFieldValue(inputId, willEmpty) {
     const inputField = document.getElementById(inputId);
     const inputFieldText = inputField.value;
     const inputFieldAmount = parseFloat(inputFieldText)
-    // inputField.value = ""
+    if (willEmpty) {
+        inputField.value = ""
+    }
     return inputFieldAmount;
 }
-
-
+// function for error handle
+function errorHandle(alertId, inputBoxId) {
+    document.getElementById(alertId).style.display = "block"
+    document.getElementById(inputBoxId).addEventListener("focus", function () {
+        document.getElementById(alertId).style.display = "none";
+    })
+}
 
 // Income and expenses calculation part
 
 document.getElementById("calculate").addEventListener("click", function () {
     const income = inputFieldValue("income")
-    const foodExpenses = inputFieldValue("food-expenses");
-    const rentExpenses = inputFieldValue("rent-expenses");
-    const clothExpenses = inputFieldValue("cloth-expenses");
+    const foodExpenses = inputFieldValue("food-expenses", true);
+    const rentExpenses = inputFieldValue("rent-expenses", true);
+    const clothExpenses = inputFieldValue("cloth-expenses", true);
     const expenses = document.getElementById("total-expenses");
     const balace = document.getElementById("balance");
     const totalExpenses = foodExpenses + rentExpenses + clothExpenses;
 
     if (foodExpenses <= 0 || clothExpenses <= 0 || rentExpenses <= 0) {
         if (foodExpenses <= 0) {
-            alert("food Expenses cant be nagative")
+            errorHandle("food-input-error", "food-expenses")
         }
         else if (clothExpenses <= 0) {
-            alert("Cloth expenses cant be nagative")
+            errorHandle("cloth-input-error", "cloth-expenses")
         }
         else {
-            alert("This is not your Fathers hotel. you stay here without zero cost")
+            errorHandle("rent-input-error", "rent-expenses")
+
         }
     }
     else if (isNaN(income) || isNaN(foodExpenses) || isNaN(rentExpenses) || isNaN(clothExpenses)) {
         if (isNaN(income)) {
-            alert("enter a valid number in income field")
+            errorHandle("income-input-error", "income")
         }
         else if (isNaN(foodExpenses)) {
-            alert("enter a valid number in food expenses field")
+            errorHandle("food-input-error", "food-expenses")
         }
         else if (isNaN(rentExpenses)) {
-            alert("enter a valid number in rent expenses field")
+            errorHandle("rent-input-error", "rent-expenses")
         }
         else {
-            alert("enter a valid number in cloth expenses field")
+            errorHandle("cloth-input-error", "cloth-expenses")
         }
     }
 
     else if (income < totalExpenses) {
-        alert("income can't be less then tatal Expenses")
+        errorHandle("income-input-error", "income")
     }
 
     else {
@@ -59,12 +67,25 @@ document.getElementById("calculate").addEventListener("click", function () {
 
 
 document.getElementById("saving-btn").addEventListener("click", function () {
-    const save = inputFieldValue("saving-input")
+    const savingPercent = inputFieldValue("saving-input")
     const income = inputFieldValue("income");
     const savingAmount = document.getElementById("saving-amount");
     const remainingBalance = document.getElementById("remaining-balance");
-    const balace = document.getElementById("balance");
-    const saving = income * (save / 100);
-    savingAmount.innerText = saving;
-    remainingBalance.innerText = balace.innerText - saving
+    const balace = document.getElementById("balance").innerText;
+    const balaceValue = parseFloat(balace)
+    const saving = income * (savingPercent / 100);
+
+    if (balaceValue == 0 || isNaN(savingPercent) || (income == 0 || isNaN(income))) {
+        if (balaceValue == 0) {
+            errorHandle("saving-input-error", "saving-input")
+        }
+        else {
+            errorHandle("saving-input-error", "saving-input")
+        }
+    }
+    else {
+        savingAmount.innerText = saving;
+        remainingBalance.innerText = balaceValue - saving
+    }
 })
+
