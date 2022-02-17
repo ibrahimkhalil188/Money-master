@@ -65,6 +65,7 @@ document.getElementById("calculate").addEventListener("click", function () {
     }
 })
 
+//savings claculation part
 
 document.getElementById("saving-btn").addEventListener("click", function () {
 
