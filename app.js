@@ -85,6 +85,9 @@ document.getElementById("saving-btn").addEventListener("click", function () {
             errorHandle("saving-input-error", "saving-input")
         }
     }
+    else if (saving < 0) {
+        errorHandle("saving-input-error", "saving-input")
+    }
 
     else {
         const remainingValue = balaceValue - saving
